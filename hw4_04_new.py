@@ -1,42 +1,50 @@
 # Module 4 Homework: Exercise 4
 # This is program for a Command Line Interface bot that allows to interact with a contact list
 # It allows a user to add, change, and retrieve a contact's phone number, as well as print all contacts
-# Names are case-insensitive.
-# For a list of commands enter 'help'
+# Names and commands are case-insensitive.
 
+# parses user input
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
 
+
+# adds name and phone to a dictionary 'contacts'
 def add_contact(args, contacts):
     name, phone = args
     contacts[name.title()] = phone
     return "Contact added."
 
+
+# changes a phone number for a name in contacts dictionary
 def change_contact(args, contacts):
     name, phone = args
-    for saved_name in contacts:
-        if saved_name.casefold() == name.casefold():
-            contacts[saved_name] = phone
-            return "Contact updated."
-        else:
-            return "No matching contact found. No updates made."
+    if name in contacts.keys():
+        contacts.update({name: phone})
+        return "Contact updated."
+    else:
+        return "No matching contact found. No updates made."
 
 
+# returns the phone number for a name from contacts dictionary
 def phone(name, contacts):
     if contacts.get(name):
         return contacts.get(name)
     else:
         return "No matching contact found."
 
+
+# returns all names and numbers from contacts dictionary
 def show_all(contacts):
     if contacts:
-        return contacts
+        contacts_str ="\n".join(f"{name}: {phone}" for name, phone in contacts.items())
+        return "Contacts:\n" + contacts_str
     else:
         return "No contacts have been added yet."
 
 
+# main function for processing user input, output and logic of the CLI bot
 def main():
     contacts = {}
     print("Welcome to the assistant bot!")
@@ -61,7 +69,6 @@ def main():
         elif command in ["change", "update"]:
             try:
                 args = [args[0].title(), args[1]]
-                print("Args: ", args)
                 print(change_contact(args, contacts))
             except Exception:
                 print("The details entered are incorrect. Enter 'change' [Name] [Number], e.g., change Bob 07771110011")
