@@ -52,6 +52,8 @@ class Color:
 
 # This function outputs a list of commands for interacting with the bot
 def help():
+
+
     print(f"\n{Color.BOLD}You can use one of the following commands to interact with the bot:{Color.END}\n",
           f"\n{Color.BLUE}Add [Name] [Number]{Color.END} \t- add a name with number to contacts, for example: "
           f"{Color.BOLD}add Alex 07770000000{Color.END}",
